@@ -1,13 +1,13 @@
 :root {
-  /* Flat Solid Color Palette */
+  /* Flat Solid High-Contrast Color Palette (WCAG 2.1 AA Compliant) */
   --bg-primary: #0a0e17;
   --bg-secondary: #111827;
   --bg-tertiary: #1f293d;
   --bg-card: #151d2e;
   --bg-card-hover: #1c263c;
-  --bg-glass: rgba(21, 29, 46, 0.95);
+  --bg-accent-subtle: #1e3a5f;
 
-  --text-primary: #f3f4f6;
+  --text-primary: #f9fafb;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
   --text-accent: #38bdf8;
@@ -17,7 +17,6 @@
   --accent-emerald: #10b981;
   --accent-amber: #f59e0b;
   --accent-rose: #f43f5e;
-  --accent-purple: #8b5cf6;
 
   --border-subtle: #1f2937;
   --border-medium: #374151;
@@ -40,6 +39,12 @@
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
 
+  /* Line Heights & Reading Width */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.75;
+  --reading-max-width: 72ch;
+
   /* Spacing */
   --spacing-1: 0.25rem;
   --spacing-2: 0.5rem;
@@ -59,8 +64,8 @@
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
 }
 
 [data-theme="light"] {
@@ -69,11 +74,11 @@
   --bg-tertiary: #e2e8f0;
   --bg-card: #ffffff;
   --bg-card-hover: #f8fafc;
-  --bg-glass: rgba(255, 255, 255, 0.95);
+  --bg-accent-subtle: #e0f2fe;
 
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-muted: #64748b;
   --text-accent: #0284c7;
 
   --border-subtle: #e2e8f0;

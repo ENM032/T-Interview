@@ -3,7 +3,6 @@ import {
   setTrack,
   setLevel,
   setViewMode,
-  setActiveCategory,
   setSearchQuery,
   nextQuestion,
   previousQuestion,
@@ -11,126 +10,116 @@ import {
   getCurrentQuestion,
   applyFilters
 } from "./core/state.js";
-import { TRACKS, getCategoriesForTrack } from "./data/questions-manifest.js";
-import { renderFlashcardView } from "./ui/flashcard-view.js";
+import { renderLeftSidebar } from "./ui/sidebar-left.js";
+import { renderRightSidebar } from "./ui/sidebar-right.js";
 import { renderReadingView } from "./ui/reading-view.js";
+import { renderFlashcardView } from "./ui/flashcard-view.js";
 import { getTheme, saveTheme, toggleBookmark, toggleMastered } from "./core/storage.js";
 
-const mainContent = document.getElementById("main-content");
-const filterContainer = document.getElementById("category-filter-bar");
-const searchInput = document.getElementById("search-input");
+const leftSidebarContainer = document.getElementById("sidebar-left");
+const centerContentContainer = document.getElementById("main-content");
+const rightSidebarContainer = document.getElementById("sidebar-right");
 const trackSelect = document.getElementById("track-select");
 const levelSelect = document.getElementById("level-select");
-const brandBadge = document.getElementById("brand-track-badge");
 const themeToggleBtn = document.getElementById("theme-toggle");
 
-function renderCategories() {
-  if (!filterContainer) return;
-  const categories = getCategoriesForTrack(state.activeTrack, state.activeLevel);
-  filterContainer.innerHTML = categories.map(cat => `
-    <button class="category-chip ${state.activeCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">
-      ${cat.label}
-    </button>
-  `).join("");
-}
+function renderApp() {
+  renderLeftSidebar(leftSidebarContainer);
+  renderRightSidebar(rightSidebarContainer);
 
-function updateBrandBadge() {
-  if (!brandBadge) return;
-  const trackObj = TRACKS.find(t => t.id === state.activeTrack);
-  const trackLabel = trackObj ? trackObj.label : state.activeTrack;
-  brandBadge.textContent = `${trackLabel} · ${state.activeLevel.toUpperCase()}`;
-}
-
-function renderActiveView() {
-  updateBrandBadge();
   if (state.viewMode === "flashcards") {
-    renderFlashcardView(mainContent);
-  } else if (state.viewMode === "reading") {
-    renderReadingView(mainContent);
+    renderFlashcardView(centerContentContainer);
+  } else {
+    renderReadingView(centerContentContainer);
   }
 }
 
 function handleTrackChange(event) {
-  const selectedTrack = event.target.value;
-  setTrack(selectedTrack);
-  renderCategories();
-  renderActiveView();
+  setTrack(event.target.value);
+  renderApp();
 }
 
 function handleLevelChange(event) {
-  const selectedLevel = event.target.value;
-  setLevel(selectedLevel);
-  renderCategories();
-  renderActiveView();
-}
-
-function handleCategoryClick(event) {
-  const target = event.target.closest(".category-chip");
-  if (!target) return;
-  const categoryId = target.getAttribute("data-category");
-  setActiveCategory(categoryId);
-  renderCategories();
-  renderActiveView();
-}
-
-function handleModeSwitch(event) {
-  const button = event.target.closest(".mode-button");
-  if (!button) return;
-  const mode = button.getAttribute("data-mode");
-
-  document.querySelectorAll(".mode-button").forEach(btn => btn.classList.remove("active"));
-  button.classList.add("active");
-
-  setViewMode(mode);
-  renderActiveView();
+  setLevel(event.target.value);
+  renderApp();
 }
 
 function handleSearch(event) {
   setSearchQuery(event.target.value);
-  renderActiveView();
+  renderApp();
+}
+
+function handleModeChange(mode) {
+  setViewMode(mode);
+  renderApp();
+}
+
+function handleQuestionSelect(questionId) {
+  const index = state.filteredQuestions.findIndex(q => q.id === questionId);
+  if (index !== -1) {
+    state.currentIndex = index;
+    state.isFlipped = false;
+    renderApp();
+  }
 }
 
 function handleActionClick(event) {
   const current = getCurrentQuestion();
   if (!current) return;
 
-  if (event.target.closest("#btn-flip") || event.target.closest("#flashcard-trigger")) {
+  if (event.target.closest("#btn-flip")) {
     toggleCardFlip();
-    renderActiveView();
-  } else if (event.target.closest("#btn-next")) {
+    renderApp();
+  } else if (event.target.closest("#btn-next") || event.target.closest("#btn-next-question")) {
     nextQuestion();
-    renderActiveView();
-  } else if (event.target.closest("#btn-prev")) {
+    renderApp();
+  } else if (event.target.closest("#btn-prev") || event.target.closest("#btn-prev-question")) {
     previousQuestion();
-    renderActiveView();
+    renderApp();
   } else if (event.target.closest("#btn-bookmark") || event.target.closest("#read-bookmark-btn")) {
     toggleBookmark(current.id);
-    renderActiveView();
+    renderApp();
   } else if (event.target.closest("#btn-mastered") || event.target.closest("#read-master-btn")) {
     toggleMastered(current.id);
-    renderActiveView();
-  } else if (event.target.closest(".question-nav-item")) {
-    const item = event.target.closest(".question-nav-item");
-    state.currentIndex = parseInt(item.getAttribute("data-index"), 10);
-    renderActiveView();
+    renderApp();
+  }
+}
+
+function handleSidebarClick(event) {
+  const navBtn = event.target.closest(".question-nav-btn");
+  if (navBtn) {
+    const questionId = navBtn.getAttribute("data-id");
+    handleQuestionSelect(questionId);
+  }
+}
+
+function handleRightSidebarClick(event) {
+  const modeBtn = event.target.closest("[data-mode]");
+  if (modeBtn) {
+    handleModeChange(modeBtn.getAttribute("data-mode"));
   }
 }
 
 function handleKeyboard(event) {
   if (event.target.tagName === "INPUT" || event.target.tagName === "SELECT") return;
 
+  const current = getCurrentQuestion();
   if (event.key === "ArrowRight") {
     nextQuestion();
-    renderActiveView();
+    renderApp();
   } else if (event.key === "ArrowLeft") {
     previousQuestion();
-    renderActiveView();
-  } else if (event.key === " " || event.key === "Enter") {
-    if (state.viewMode === "flashcards") {
-      event.preventDefault();
-      toggleCardFlip();
-      renderActiveView();
-    }
+    renderApp();
+  } else if (event.key === " " && state.viewMode === "flashcards") {
+    event.preventDefault();
+    toggleCardFlip();
+    renderApp();
+  } else if ((event.key === "b" || event.key === "B") && current) {
+    toggleBookmark(current.id);
+    renderApp();
+  } else if ((event.key === "m" || event.key === "M") && current) {
+    toggleMastered(current.id);
+    renderApp();
   }
 }
 
@@ -149,19 +138,25 @@ function toggleTheme() {
 function initEventListeners() {
   if (trackSelect) trackSelect.addEventListener("change", handleTrackChange);
   if (levelSelect) levelSelect.addEventListener("change", handleLevelChange);
-  if (filterContainer) filterContainer.addEventListener("click", handleCategoryClick);
-  if (searchInput) searchInput.addEventListener("input", handleSearch);
   if (themeToggleBtn) themeToggleBtn.addEventListener("click", toggleTheme);
-  document.querySelectorAll(".mode-button").forEach(btn => btn.addEventListener("click", handleModeSwitch));
-  if (mainContent) mainContent.addEventListener("click", handleActionClick);
+
+  if (leftSidebarContainer) {
+    leftSidebarContainer.addEventListener("input", event => {
+      if (event.target.id === "sidebar-search-input") handleSearch(event);
+    });
+    leftSidebarContainer.addEventListener("click", handleSidebarClick);
+  }
+
+  if (centerContentContainer) centerContentContainer.addEventListener("click", handleActionClick);
+  if (rightSidebarContainer) rightSidebarContainer.addEventListener("click", handleRightSidebarClick);
+
   window.addEventListener("keydown", handleKeyboard);
 }
 
 export function initApp() {
   initTheme();
   applyFilters();
-  renderCategories();
-  renderActiveView();
+  renderApp();
   initEventListeners();
 }
 

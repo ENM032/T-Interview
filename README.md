@@ -46,10 +46,10 @@ t-interview/
 │           ├── 01-frameworks/              # Agile, Scrum, Waterfall
 │           └── 02-project-controls/        # Scope, budget, and schedule controls
 ├── css/
-│   ├── variables.css                       # CSS custom properties & design tokens
+│   ├── variables.css                       # CSS custom properties, reading line limits, design tokens
 │   ├── base.css                            # Baseline resets and typography
-│   ├── components.css                      # 3D flashcards, reader layout, controls
-│   └── responsive.css                      # Breakpoints for Mobile, Tablet, Desktop, TV
+│   ├── components.css                      # 3-column layout, progressive disclosure blocks, buttons
+│   └── responsive.css                      # Breakpoints for Mobile (<768px), Tablet, Desktop, TV
 ├── js/
 │   ├── core/
 │   │   ├── state.js                        # Multi-track application state
@@ -57,8 +57,10 @@ t-interview/
 │   ├── data/
 │   │   └── questions-manifest.js           # Multi-track catalog & category metadata
 │   ├── ui/
-│   │   ├── flashcard-view.js               # Interactive 3D flip card component
-│   │   └── reading-view.js                 # Split-pane deep-dive reading component
+│   │   ├── sidebar-left.js                 # Progress bar, search filter, and category nav
+│   │   ├── sidebar-right.js                # Track summary stats, mode switch, and keyboard shortcuts
+│   │   ├── reading-view.js                 # Progressive disclosure reader pane
+│   │   └── flashcard-view.js               # Rapid revision drill component
 │   ├── utils/
 │   │   └── markdown-parser.js              # Lightweight zero-dependency markdown parser
 │   └── app.js                              # Main application coordinator
@@ -96,13 +98,22 @@ T-Interview is built with pure, performant vanilla HTML5, CSS3, and ES6 JavaScri
 
 ---
 
-## Key Application Features
+## Key Application Features & Accessibility
 
+* **3-Tier Progressive Disclosure**:
+  * **Tier 1 (Elevator Pitch)**: 30-second answer for verbal interviews.
+  * **Tier 2 (Key Takeaways)**: High-yield bullet points for memory retention.
+  * **Tier 3 (Deep Dive)**: Full technical diagrams, comparison tables, and code snippets.
+  * **Tier 4 (Interview Advice)**: Practical guidance and common pitfall warnings.
+* **Accessible 3-Column Architecture**:
+  * Left navigation with real-time category progress meters.
+  * Optimal line length (`65-72ch`) to minimize visual fatigue.
+  * High-contrast focus rings and keyboard accessibility (`Left`/`Right` to navigate, `B` to bookmark, `M` to mark mastered).
 * **Dual Study Modes**:
-  * **Flashcards Mode**: 3D flip cards with fast question/summary drills (Space to flip, Left/Right arrows to navigate).
-  * **Deep Dive Mode**: Full markdown reader with code syntax, diagrams, tables, and interview advice.
+  * **Deep Dive Mode**: Complete structured reader.
+  * **Flashcard Drill Mode**: Distraction-free rapid self-testing.
 * **Track & Seniority Filtering**: Instant switching between **Cybersecurity**, **Software Engineering**, and **Project Management** across **Intern**, **Junior**, **Intermediate**, and **Senior** tiers.
-* **Device Responsiveness**: Tailored layouts for **Mobile** (<640px), **Tablet** (640–1024px), **Desktop** (>1024px), and **TV/Presentation** (>1800px or fullscreen).
+* **Device Responsiveness**: Tailored layouts for **Mobile** (<768px), **Tablet** (768–1100px), **Desktop** (>1100px), and **TV/Presentation** (>1800px or fullscreen).
 * **Offline Progress Tracking**: Track "Mastered" questions (✓) and bookmarks (★) persisted directly in browser `localStorage`.
 * **Dark / Light Themes**: Toggleable theme preference (🌓).
 
