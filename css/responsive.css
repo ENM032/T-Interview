@@ -1,0 +1,99 @@
+/* Mobile First (Base styles target < 640px) */
+@media (max-width: 640px) {
+  .header-container {
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: stretch;
+  }
+
+  .header-actions {
+    justify-content: space-between;
+  }
+
+  .reading-container {
+    grid-template-columns: 1fr;
+  }
+
+  .questions-sidebar {
+    max-height: 220px;
+    margin-bottom: var(--spacing-4);
+  }
+
+  .card-face {
+    padding: var(--spacing-4);
+    min-height: 480px;
+  }
+
+  .card-question-text {
+    font-size: var(--font-size-xl);
+  }
+
+  .reading-content-pane {
+    padding: var(--spacing-4);
+  }
+
+  .article-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .markdown-body table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Tablet (641px - 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .reading-container {
+    grid-template-columns: 260px 1fr;
+    gap: var(--spacing-4);
+  }
+
+  .reading-content-pane {
+    padding: var(--spacing-6);
+  }
+
+  .card-face {
+    min-height: 440px;
+  }
+}
+
+/* Desktop (> 1024px) */
+@media (min-width: 1025px) {
+  .flashcard-container {
+    min-height: 460px;
+  }
+
+  .card-face {
+    min-height: 460px;
+    padding: var(--spacing-8);
+  }
+}
+
+/* Big Screen & TV Mode (> 1800px or TV media) */
+@media (min-width: 1800px), (display-mode: fullscreen) and (min-width: 1400px) {
+  html {
+    font-size: 20px;
+  }
+
+  .main-wrapper {
+    max-width: 1700px;
+  }
+
+  .reading-container {
+    grid-template-columns: 380px 1fr;
+  }
+
+  .card-face {
+    min-height: 540px;
+    padding: var(--spacing-10);
+  }
+
+  .card-question-text {
+    font-size: var(--font-size-3xl);
+  }
+
+  .card-answer-summary {
+    font-size: var(--font-size-lg);
+  }
+}
