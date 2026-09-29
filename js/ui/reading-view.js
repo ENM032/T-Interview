@@ -12,28 +12,76 @@ async function fetchMarkdownContent(path) {
   }
 }
 
-function renderSidebarItems() {
-  return state.filteredQuestions.map((q, idx) => {
-    const isActive = idx === state.currentIndex;
-    return `
-      <button class="question-nav-item ${isActive ? 'active' : ''}" data-index="${idx}">
-        <span class="question-nav-category">${q.categoryLabel}</span>
-        <span>${idx + 1}. ${q.title}</span>
-      </button>
-    `;
-  }).join("");
+function renderTakeaways(takeaways) {
+  if (!takeaways || takeaways.length === 0) return "";
+  return takeaways.map(item => `<li>${item}</li>`).join("");
 }
 
-function generateFallbackMarkdown(question) {
+function renderHeader(question, isBookmarked, isMastered) {
   return `
-## Summary
-${question.summaryAnswer}
+    <header class="reader-header">
+      <div class="reader-meta-bar">
+        <span class="category-tag">${question.categoryLabel} · ${question.difficulty}</span>
+        <div class="reader-actions">
+          <button class="btn-icon ${isBookmarked ? 'active-bookmark' : ''}" id="read-bookmark-btn" title="Bookmark (B)" aria-label="Bookmark">
+            ★
+          </button>
+          <button class="btn-icon ${isMastered ? 'active-mastered' : ''}" id="read-master-btn" title="Mark as Mastered (M)" aria-label="Mark as Mastered">
+            ✓
+          </button>
+        </div>
+      </div>
+      <h1 class="reader-title">${question.title}</h1>
+      <div class="tag-list">
+        ${question.tags.map(t => `<span class="tag-badge">#${t}</span>`).join("")}
+      </div>
+    </header>
+  `;
+}
 
-## Key Takeaways
-${question.keyTakeaways.map(t => `- ${t}`).join("\n")}
+function renderProgressiveSections(question, htmlContent) {
+  return `
+    <!-- Tier 1: 30-Second Elevator Pitch -->
+    <div class="elevator-pitch-box">
+      <div class="box-label">30-Second Elevator Pitch (Interview Answer)</div>
+      <p class="elevator-pitch-text">${question.summaryAnswer}</p>
+    </div>
 
-## Interview Guidance
-${question.interviewTips ? question.interviewTips.map(tip => `> ${tip}`).join("\n\n") : ''}
+    <!-- Tier 2: Key Takeaways -->
+    <div class="takeaways-section">
+      <div class="takeaways-title">Key Takeaways</div>
+      <ul class="takeaways-list">
+        ${renderTakeaways(question.keyTakeaways)}
+      </ul>
+    </div>
+
+    <!-- Tier 3: Technical Deep Dive -->
+    <div class="deep-dive-section">
+      <div class="markdown-body">
+        ${htmlContent}
+      </div>
+    </div>
+
+    <!-- Tier 4: Interview Tips -->
+    ${question.interviewTips ? `
+      <div class="interview-tip-card">
+        <div class="interview-tip-title">Interview Advice & Trap Avoidance</div>
+        <p class="interview-tip-text">${question.interviewTips[0]}</p>
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderBottomControls() {
+  return `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+      <button class="btn-secondary" id="btn-prev-question">
+        Previous Question
+      </button>
+      <button class="btn-primary" id="btn-next-question">
+        Next Question
+      </button>
+    </div>
   `;
 }
 
@@ -42,6 +90,7 @@ export async function renderReadingView(container) {
     container.innerHTML = `
       <div style="text-align: center; padding: 48px 16px; color: var(--text-secondary);">
         <h3>No questions found</h3>
+        <p style="margin-top: 8px;">Try clearing your filter or search query.</p>
       </div>
     `;
     return;
@@ -49,9 +98,8 @@ export async function renderReadingView(container) {
 
   const question = state.filteredQuestions[state.currentIndex];
   let markdownText = await fetchMarkdownContent(question.markdownPath);
-  
   if (!markdownText) {
-    markdownText = generateFallbackMarkdown(question);
+    markdownText = `## Detailed Explanation\n${question.summaryAnswer}`;
   }
 
   const htmlContent = parseMarkdown(markdownText);
@@ -59,33 +107,8 @@ export async function renderReadingView(container) {
   const isBookmarked = getBookmarks().includes(question.id);
 
   container.innerHTML = `
-    <div class="reading-container">
-      <aside class="questions-sidebar">
-        <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">
-          Questions (${state.filteredQuestions.length})
-        </h4>
-        ${renderSidebarItems()}
-      </aside>
-
-      <article class="reading-content-pane">
-        <header class="article-header">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span class="article-category-badge">${question.categoryLabel}</span>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn-icon ${isBookmarked ? 'active' : ''}" id="read-bookmark-btn" title="Bookmark">★</button>
-              <button class="btn-icon ${isMastered ? 'active' : ''}" id="read-master-btn" title="Mark as Mastered">✓</button>
-            </div>
-          </div>
-          <h1 class="article-title">${question.title}</h1>
-          <div class="article-tags">
-            ${question.tags.map(t => `<span class="tag-pill">#${t}</span>`).join("")}
-          </div>
-        </header>
-
-        <div class="markdown-body">
-          ${htmlContent}
-        </div>
-      </article>
-    </div>
+    ${renderHeader(question, isBookmarked, isMastered)}
+    ${renderProgressiveSections(question, htmlContent)}
+    ${renderBottomControls()}
   `;
 }

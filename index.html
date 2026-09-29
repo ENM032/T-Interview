@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="description" content="T-Interview: Multi-Profession Interview Preparation Platform for Cybersecurity, Software Engineering, Project Management and more.">
+  <meta name="description" content="T-Interview: Professional technical interview preparation with accessible progressive disclosure.">
   <meta name="theme-color" content="#0a0e17">
-  <title>T-Interview | Multi-Profession Interview Preparation</title>
+  <title>T-Interview | Technical Interview Preparation</title>
   
   <!-- App Stylesheets -->
   <link rel="stylesheet" href="css/variables.css">
@@ -14,53 +14,33 @@
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-  <!-- Header & Navigation -->
+  <!-- Header -->
   <header class="app-header">
     <div class="header-container">
       <div class="brand-group">
         <div class="brand-logo" aria-hidden="true">T</div>
         <div>
           <span class="brand-title">T-Interview</span>
-          <span class="brand-badge" id="brand-track-badge">Cybersecurity</span>
         </div>
       </div>
 
-      <div class="header-selectors">
-        <!-- Track Dropdown -->
+      <div class="header-controls">
+        <!-- Track Selector -->
         <select id="track-select" class="dropdown-select" aria-label="Select Professional Track">
           <option value="cybersecurity">Cybersecurity</option>
           <option value="software-engineering">Software Engineering</option>
           <option value="project-management">Project Management</option>
         </select>
 
-        <!-- Level Dropdown -->
+        <!-- Level Selector -->
         <select id="level-select" class="dropdown-select" aria-label="Select Seniority Level">
           <option value="intern">Intern</option>
           <option value="junior">Junior</option>
           <option value="intermediate">Intermediate</option>
           <option value="senior">Senior</option>
         </select>
-      </div>
 
-      <div class="search-container">
-        <input 
-          type="search" 
-          id="search-input" 
-          class="search-input" 
-          placeholder="Search topics, questions, tags..." 
-          aria-label="Search questions"
-        >
-      </div>
-
-      <div class="header-actions">
-        <div class="mode-selector" role="tablist" aria-label="Study Mode Selection">
-          <button class="mode-button active" data-mode="flashcards" role="tab" aria-selected="true">
-            <span>Flashcards</span>
-          </button>
-          <button class="mode-button" data-mode="reading" role="tab" aria-selected="false">
-            <span>Deep Dive</span>
-          </button>
-        </div>
+        <!-- Theme Toggle -->
         <button class="btn-icon" id="theme-toggle" title="Toggle Theme" aria-label="Toggle Dark/Light Mode">
           🌓
         </button>
@@ -68,15 +48,23 @@
     </div>
   </header>
 
-  <!-- Category Filter Bar -->
-  <nav class="filter-bar" id="category-filter-bar" aria-label="Category Filters">
-    <!-- Rendered dynamically by JavaScript -->
-  </nav>
+  <!-- 3-Column Progressive Disclosure Layout -->
+  <div class="app-layout">
+    <!-- Left Sidebar: Modules & Search -->
+    <aside class="sidebar-left" id="sidebar-left" aria-label="Navigation and Progress">
+      <!-- Rendered dynamically by JavaScript -->
+    </aside>
 
-  <!-- Main View Area -->
-  <main class="main-wrapper" id="main-content" role="region" aria-live="polite">
-    <!-- Rendered dynamically by JavaScript -->
-  </main>
+    <!-- Center Pane: Main Content & Reading -->
+    <main class="content-center" id="main-content" role="region" aria-live="polite">
+      <!-- Rendered dynamically by JavaScript -->
+    </main>
+
+    <!-- Right Sidebar: Stats, Tools & Keyboard Shortcuts -->
+    <aside class="sidebar-right" id="sidebar-right" aria-label="Study Tools and Stats">
+      <!-- Rendered dynamically by JavaScript -->
+    </aside>
+  </div>
 
   <!-- Application Entry Script -->
   <script type="module" src="js/app.js"></script>
