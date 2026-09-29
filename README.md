@@ -4,27 +4,27 @@
 
 ---
 
-## 📖 Content Overview
+## Content Overview
 
 T-Interview hosts curated, interview-focused questions and explanations formatted in open **Markdown + YAML Frontmatter**. The curriculum is organized across multiple technical disciplines:
 
-* **🛡️ Cybersecurity**:
+* **Cybersecurity**:
   * **Fundamentals**: CIA Triad, Threat vs. Vulnerability vs. Risk, Principle of Least Privilege, Defense in Depth.
   * **Cryptography Basics**: Encryption vs. Hashing vs. Encoding, Symmetric vs. Asymmetric Cryptography.
   * **Identity & Access Management (IAM)**: Authentication vs. Authorization, Multi-Factor Authentication (MFA).
   * **Threats & Malware**: Phishing Recognition, Malware Taxonomy (Viruses, Worms, Trojans, Ransomware), Social Engineering Vectors.
   * **Network Security**: Complete OSI 7-Layer Model & Security Mapping, Firewalls, IDS vs. IPS, Ports & Protocols, SOC & SIEM Operations.
-* **💻 Software Engineering**:
+* **Software Engineering**:
   * **Computer Science Fundamentals**: Big-O Computational Complexity, 4 Pillars of OOP (Encapsulation, Abstraction, Inheritance, Polymorphism).
   * **Web & APIs**: RESTful API Principles, HTTP Verbs, Idempotency, Status Codes.
   * **Version Control**: Git Architecture, Feature Branching Workflows, Pull Requests.
-* **📊 Project Management**:
+* **Project Management**:
   * **Frameworks & Methodologies**: Agile vs. Waterfall, The 5 Scrum Ceremonies & 3 Scrum Roles.
   * **Project Controls**: The Triple Constraint (Iron Triangle), Scope Creep Mitigation.
 
 ---
 
-## 📁 File & Folder Structure
+## File & Folder Structure
 
 ```text
 t-interview/
@@ -68,7 +68,7 @@ t-interview/
 
 ---
 
-## 🚀 How to Install & Use
+## How to Install & Use
 
 T-Interview is built with pure, performant vanilla HTML5, CSS3, and ES6 JavaScript modules. It requires no compilers, bundlers, or external package managers to run.
 
@@ -96,19 +96,19 @@ T-Interview is built with pure, performant vanilla HTML5, CSS3, and ES6 JavaScri
 
 ---
 
-## ⚡ Key Application Features
+## Key Application Features
 
 * **Dual Study Modes**:
-  * **⚡ Flashcards Mode**: 3D flip cards with fast question/summary drills (`Space` to flip, `←`/`→` to navigate).
-  * **📖 Deep Dive Mode**: Full markdown reader with code syntax, diagrams, tables, and interview advice.
+  * **Flashcards Mode**: 3D flip cards with fast question/summary drills (Space to flip, Left/Right arrows to navigate).
+  * **Deep Dive Mode**: Full markdown reader with code syntax, diagrams, tables, and interview advice.
 * **Track & Seniority Filtering**: Instant switching between **Cybersecurity**, **Software Engineering**, and **Project Management** across **Intern**, **Junior**, **Intermediate**, and **Senior** tiers.
 * **Device Responsiveness**: Tailored layouts for **Mobile** (<640px), **Tablet** (640–1024px), **Desktop** (>1024px), and **TV/Presentation** (>1800px or fullscreen).
-* **Offline Progress Tracking**: Track "Mastered" questions (`✓`) and bookmarks (`★`) persisted directly in browser `localStorage`.
-* **Dark / Light Themes**: Toggleable theme preference.
+* **Offline Progress Tracking**: Track "Mastered" questions (✓) and bookmarks (★) persisted directly in browser `localStorage`.
+* **Dark / Light Themes**: Toggleable theme preference (🌓).
 
 ---
 
-## ✍️ Contributing Learning Content
+## Contributing Learning Content
 
 1. Create a new `.md` file inside the appropriate `content/<track>/<level>/<category>/` directory.
 2. Structure the frontmatter:

@@ -23,7 +23,7 @@ function renderCardFront(question, isBookmarked, isMastered) {
         </div>
       </div>
       <div class="card-hint-notice">
-        <span>💡 Tap or click card to reveal answer</span>
+        <span>Tap or click card to reveal answer</span>
       </div>
     </div>
   `;
@@ -45,14 +45,14 @@ function renderCardBack(question) {
           </ul>
         </div>
         ${question.interviewTips ? `
-          <div style="margin-top: 12px; background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 8px; border-left: 3px solid var(--accent-cyan);">
-            <strong style="color: var(--accent-cyan); font-size: 0.8rem;">🎯 Interview Tip:</strong>
+          <div style="margin-top: 12px; background: var(--bg-tertiary); padding: 10px; border-radius: 8px; border-left: 3px solid var(--accent-cyan);">
+            <strong style="color: var(--accent-cyan); font-size: 0.8rem;">Interview Tip:</strong>
             <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">${question.interviewTips[0]}</p>
           </div>
         ` : ''}
       </div>
       <div class="card-hint-notice" style="margin-top: 12px;">
-        <span>🔄 Tap to flip back</span>
+        <span>Tap to flip back</span>
       </div>
     </div>
   `;
@@ -79,7 +79,7 @@ export function renderFlashcardView(container) {
     <div class="flashcard-section">
       <div class="flashcard-meta">
         <span>Question ${state.currentIndex + 1} of ${state.filteredQuestions.length}</span>
-        <span>Keyboard: ← Previous | Space Flip | Next →</span>
+        <span>Keyboard: Left (Prev) | Space (Flip) | Right (Next)</span>
       </div>
 
       <div class="flashcard-container" id="flashcard-trigger">
@@ -94,13 +94,13 @@ export function renderFlashcardView(container) {
           ★
         </button>
         <button class="btn-secondary" id="btn-prev">
-          ← Prev
+          Previous
         </button>
         <button class="btn-primary" id="btn-flip">
           ${state.isFlipped ? 'Show Question' : 'Reveal Answer'}
         </button>
         <button class="btn-secondary" id="btn-next">
-          Next →
+          Next
         </button>
         <button class="btn-icon ${isMastered ? 'active' : ''}" id="btn-mastered" title="Mark as mastered">
           ✓

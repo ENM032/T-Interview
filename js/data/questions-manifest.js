@@ -4,9 +4,9 @@
  */
 
 export const TRACKS = [
-  { id: "cybersecurity", label: "Cybersecurity", icon: "🛡️" },
-  { id: "software-engineering", label: "Software Engineering", icon: "💻" },
-  { id: "project-management", label: "Project Management", icon: "📊" }
+  { id: "cybersecurity", label: "Cybersecurity" },
+  { id: "software-engineering", label: "Software Engineering" },
+  { id: "project-management", label: "Project Management" }
 ];
 
 export const LEVELS = [
